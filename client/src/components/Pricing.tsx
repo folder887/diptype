@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api, PublicUser, TonCheckout } from '../api';
 import { useAuth } from '../auth/AuthContext';
 import Reveal from './Reveal';
+import { CheckIcon, CardIcon, DiamondIcon, CopyIcon } from './icons';
 
 interface Plan {
   key: string;
@@ -84,19 +85,19 @@ export default function Pricing() {
         <div className="mx-auto mt-8 flex w-fit items-center gap-1 rounded-2xl border border-slate-200 bg-white p-1">
           <button
             onClick={() => setMethod('yoomoney')}
-            className={`rounded-xl px-5 py-2 text-sm font-semibold transition ${
+            className={`flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-semibold transition ${
               method === 'yoomoney' ? 'bg-brand-600 text-white shadow-soft' : 'text-slate-600 hover:text-brand-700'
             }`}
           >
-            💳 Банковская карта
+            <CardIcon className="h-4 w-4" /> Банковская карта
           </button>
           <button
             onClick={() => setMethod('ton')}
-            className={`rounded-xl px-5 py-2 text-sm font-semibold transition ${
+            className={`flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-semibold transition ${
               method === 'ton' ? 'bg-brand-600 text-white shadow-soft' : 'text-slate-600 hover:text-brand-700'
             }`}
           >
-            💎 Криптовалюта TON
+            <DiamondIcon className="h-4 w-4" /> Криптовалюта TON
           </button>
         </div>
       </Reveal>
@@ -120,16 +121,16 @@ export default function Pricing() {
                 <ul className="mt-5 space-y-2 text-sm text-slate-600">
                   {PRO_FEATURES.map((f) => (
                     <li key={f} className="flex items-start gap-2">
-                      <span className="mt-0.5 text-brand-600">✓</span>
+                      <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
                       {f}
                     </li>
                   ))}
                 </ul>
               ) : (
                 <ul className="mt-5 space-y-2 text-sm text-slate-600">
-                  <li className="flex items-start gap-2"><span className="mt-0.5 text-brand-600">✓</span>3 дипломные работы</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 text-brand-600">✓</span>Прикрепление документов</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 text-slate-300">—</span>Презентации / сайты / речи</li>
+                  <li className="flex items-start gap-2"><CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />3 дипломные работы</li>
+                  <li className="flex items-start gap-2"><CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />Прикрепление документов</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 shrink-0 text-slate-300">—</span>Презентации / сайты / речи</li>
                 </ul>
               )}
 
@@ -209,7 +210,9 @@ function TonModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-slate-900">💎 Оплата в сети TON</h3>
+          <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+            <DiamondIcon className="h-5 w-5 text-brand-600" /> Оплата в сети TON
+          </h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-700">✕</button>
         </div>
 
@@ -272,7 +275,7 @@ function Field({
       <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
         <span className={`flex-1 truncate ${mono ? 'font-mono text-xs' : ''} text-slate-800`}>{value}</span>
         <button onClick={() => onCopy(value)} className="shrink-0 text-brand-600 hover:text-brand-800" title="Копировать">
-          ⧉
+          <CopyIcon className="h-4 w-4" />
         </button>
       </div>
     </div>

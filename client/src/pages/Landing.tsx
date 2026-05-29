@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ComponentType, SVGProps } from 'react';
 import ShaderBackground from '../components/ShaderBackground';
 import Reveal from '../components/Reveal';
 import Pricing from '../components/Pricing';
 import { useAuth } from '../auth/AuthContext';
+import { DocumentIcon, ChartIcon, GlobeIcon, MicIcon, SparkIcon } from '../components/icons';
 
-const FEATURES = [
-  { icon: '📄', title: 'Дипломная работа', text: 'Структурированный текст по вашей теме и материалам — введение, главы, заключение, список литературы.' },
-  { icon: '📊', title: 'Презентация', text: 'Готовые слайды для защиты на основе вашей дипломной работы.' },
-  { icon: '🌐', title: 'Сайт по диплому', text: 'Аккуратный сайт-визитка, который наглядно представляет вашу работу.' },
-  { icon: '🎤', title: 'Речь к защите', text: 'Чёткая защитная речь с акцентами на цель, задачи и результаты.' },
+type Icon = ComponentType<SVGProps<SVGSVGElement>>;
+
+const FEATURES: { Icon: Icon; title: string; text: string }[] = [
+  { Icon: DocumentIcon, title: 'Дипломная работа', text: 'Структурированный текст по вашей теме и материалам — введение, главы, заключение, список литературы.' },
+  { Icon: ChartIcon, title: 'Презентация', text: 'Готовые слайды для защиты на основе вашей дипломной работы.' },
+  { Icon: GlobeIcon, title: 'Сайт по диплому', text: 'Аккуратный сайт-визитка, который наглядно представляет вашу работу.' },
+  { Icon: MicIcon, title: 'Речь к защите', text: 'Чёткая защитная речь с акцентами на цель, задачи и результаты.' },
 ];
 
 const STEPS = [
@@ -36,9 +40,10 @@ export default function Landing() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-block rounded-full border border-brand-200 bg-white/70 px-4 py-1.5 text-sm font-medium text-brand-700 backdrop-blur"
+            className="inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-white/70 px-4 py-1.5 text-sm font-medium text-brand-700 backdrop-blur"
           >
-            ✦ Дипломные работы с помощью ИИ
+            <SparkIcon className="h-4 w-4" />
+            Дипломные работы с помощью ИИ
           </motion.span>
 
           <motion.h1
@@ -96,8 +101,8 @@ export default function Landing() {
           {FEATURES.map((f, i) => (
             <Reveal key={f.title} delay={i * 0.07}>
               <div className="card h-full transition hover:-translate-y-1 hover:shadow-lg">
-                <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-brand-50 text-2xl">
-                  {f.icon}
+                <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-brand-50 text-brand-600">
+                  <f.Icon className="h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">{f.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-500">{f.text}</p>

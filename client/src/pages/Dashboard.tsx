@@ -1,15 +1,26 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, ComponentType, SVGProps } from 'react';
 import { api, GenFile, PublicUser } from '../api';
 import { useAuth } from '../auth/AuthContext';
 import Pricing from '../components/Pricing';
+import {
+  DocumentIcon,
+  ChartIcon,
+  GlobeIcon,
+  MicIcon,
+  CopyIcon,
+  DownloadIcon,
+  PencilDocIcon,
+  GithubIcon,
+} from '../components/icons';
 
 type Kind = 'diploma' | 'presentation' | 'website' | 'speech';
+type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
-const KINDS: { key: Kind; label: string; icon: string; pro: boolean }[] = [
-  { key: 'diploma', label: 'Дипломная работа', icon: '📄', pro: false },
-  { key: 'presentation', label: 'Презентация', icon: '📊', pro: true },
-  { key: 'website', label: 'Сайт по диплому', icon: '🌐', pro: true },
-  { key: 'speech', label: 'Речь к защите', icon: '🎤', pro: true },
+const KINDS: { key: Kind; label: string; Icon: Icon; pro: boolean }[] = [
+  { key: 'diploma', label: 'Дипломная работа', Icon: DocumentIcon, pro: false },
+  { key: 'presentation', label: 'Презентация', Icon: ChartIcon, pro: true },
+  { key: 'website', label: 'Сайт по диплому', Icon: GlobeIcon, pro: true },
+  { key: 'speech', label: 'Речь к защите', Icon: MicIcon, pro: true },
 ];
 
 function download(file: GenFile) {
@@ -134,7 +145,7 @@ export default function Dashboard() {
                     : 'border-slate-200 text-slate-600 hover:border-brand-300'
                 }`}
               >
-                <span className="text-xl">{k.icon}</span>
+                <k.Icon className="h-5 w-5 shrink-0" />
                 <span className="flex-1">{k.label}</span>
                 {k.pro && (
                   <span className="rounded bg-brand-600 px-1.5 py-0.5 text-[10px] font-bold text-white">PRO</span>
@@ -206,9 +217,9 @@ export default function Dashboard() {
         <div className="card">
           <h2 className="text-lg font-bold text-slate-900">Результат</h2>
           {!result ? (
-            <div className="mt-10 grid place-items-center text-center text-slate-400">
-              <div className="text-5xl">📝</div>
-              <p className="mt-3 text-sm">Здесь появятся сгенерированные файлы.</p>
+            <div className="mt-10 grid place-items-center text-center text-slate-300">
+              <PencilDocIcon className="h-14 w-14" />
+              <p className="mt-3 text-sm text-slate-400">Здесь появятся сгенерированные файлы.</p>
             </div>
           ) : (
             <div className="mt-4">
@@ -243,19 +254,21 @@ export default function Dashboard() {
 
               <div className="mt-3 flex flex-wrap gap-2">
                 <button onClick={() => download(result.files[activeFile])} className="btn-ghost !px-4 !py-2 text-sm">
-                  ⬇ Скачать файл
+                  <DownloadIcon className="h-4 w-4" /> Скачать файл
                 </button>
                 <button
                   onClick={() => navigator.clipboard.writeText(result.files[activeFile]?.content || '')}
                   className="btn-ghost !px-4 !py-2 text-sm"
                 >
-                  ⧉ Копировать
+                  <CopyIcon className="h-4 w-4" /> Копировать
                 </button>
               </div>
 
               {/* GitHub push */}
               <div className="mt-5 rounded-xl border border-slate-100 bg-slate-50 p-4">
-                <h4 className="text-sm font-semibold text-slate-800">Загрузить в GitHub</h4>
+                <h4 className="flex items-center gap-1.5 text-sm font-semibold text-slate-800">
+                  <GithubIcon className="h-4 w-4" /> Загрузить в GitHub
+                </h4>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
                   <input className="input !py-2 text-sm" placeholder="owner/repository" value={repo} onChange={(e) => setRepo(e.target.value)} />
                   <input className="input !py-2 text-sm" placeholder="branch (main)" value={branch} onChange={(e) => setBranch(e.target.value)} />
