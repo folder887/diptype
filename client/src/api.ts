@@ -38,6 +38,21 @@ export interface GenFile {
   content: string;
 }
 
+export interface TonCheckout {
+  paymentId?: string;
+  address?: string;
+  amountTon?: number;
+  amountNano?: number;
+  rubPerTon?: number;
+  comment?: string;
+  tonLink?: string;
+  tonkeeperLink?: string;
+  tonhubLink?: string;
+  planLabel?: string;
+  amountRub?: number;
+  demo?: boolean;
+}
+
 export const api = {
   register: (email: string, password: string, name?: string) =>
     request<{ token: string; user: PublicUser }>('/auth/register', {
@@ -63,15 +78,22 @@ export const api = {
     request<{ generations: { id: string; kind: string; title: string; created_at: number }[] }>('/generations'),
 
   plans: () =>
-    request<{ plans: Record<string, { amount: number; currency: string; days: number; label: string }>; demo: boolean }>(
-      '/payments/plans'
+    request<{
+      plans: Record<string, { amount: number; currency: string; days: number; label: string }>;
+      methods: Record<string, { label: string; demo: boolean }>;
+    }>('/payments/plans'),
+
+  checkout: (plan: string, method: 'yoomoney' | 'ton' = 'yoomoney') =>
+    request<TonCheckout & { demo?: boolean; message?: string; confirmationUrl?: string; user?: PublicUser; planExpires?: number; method?: string }>(
+      '/payments/checkout',
+      { method: 'POST', body: JSON.stringify({ plan, method }) }
     ),
 
-  checkout: (plan: string) =>
-    request<{ demo: boolean; message?: string; confirmationUrl?: string; user?: PublicUser; planExpires?: number }>(
-      '/payments/checkout',
-      { method: 'POST', body: JSON.stringify({ plan }) }
-    ),
+  tonVerify: (paymentId: string) =>
+    request<{ paid: boolean; message?: string; user?: PublicUser }>('/payments/ton/verify', {
+      method: 'POST',
+      body: JSON.stringify({ paymentId }),
+    }),
 
   pushToGithub: (id: string, repo: string, branch: string, token?: string) =>
     request<{ pushed: { path: string; url: string }[] }>(`/generations/${id}/push`, {

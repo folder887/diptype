@@ -12,9 +12,9 @@
 - **Кабинет**: прикрепление документов + промпт → генерация → просмотр, скачивание и push в GitHub.
 - **Бесплатно**: первые 3 дипломные работы.
 - **Подписка diptype Pro**: безлимит + презентации, сайты, речи и выгрузка в GitHub.
-  - $49 / месяц
   - 4 990 ₽ / месяц
   - 29 990 ₽ / год
+- **Способы оплаты**: банковская карта (YooMoney) или криптовалюта в сети **TON**.
 
 ## 🧱 Стек
 
@@ -23,7 +23,7 @@
 | Frontend  | React, Vite, TypeScript, Tailwind CSS, Framer Motion, WebGL       |
 | Backend   | Node.js, Express, better-sqlite3, JWT, multer                     |
 | ИИ        | Anthropic API (`@anthropic-ai/sdk`)                               |
-| Оплата    | YooMoney / YooKassa                                               |
+| Оплата    | YooMoney / YooKassa · криптовалюта TON (toncenter)               |
 
 ## 🚀 Запуск
 
@@ -84,10 +84,19 @@ diptype/
 | GET   | `/api/generations`            | История генераций                     |
 | POST  | `/api/generations/:id/push`   | Загрузка результата в GitHub          |
 | GET   | `/api/payments/plans`         | Тарифы                                |
-| POST  | `/api/payments/checkout`      | Оформление подписки                   |
+| POST  | `/api/payments/checkout`      | Оформление подписки (method: yoomoney/ton) |
+| POST  | `/api/payments/ton/verify`    | Проверка поступления TON-платежа      |
 | POST  | `/api/payments/webhook`       | Вебхук YooMoney                       |
 
 ## ⚙️ Переменные окружения
 
 См. `server/.env.example`. Ключевые: `JWT_SECRET`, `ANTHROPIC_API_KEY`,
-`YOOMONEY_SHOP_ID`, `YOOMONEY_SECRET_KEY`, `GITHUB_TOKEN`, `FREE_REQUEST_LIMIT`.
+`YOOMONEY_SHOP_ID`, `YOOMONEY_SECRET_KEY`, `TON_WALLET_ADDRESS`, `TONCENTER_API_KEY`,
+`TON_RUB_RATE`, `GITHUB_TOKEN`, `FREE_REQUEST_LIMIT`.
+
+### Demo-режим оплаты
+
+Без `YOOMONEY_*` оплата картой сразу активирует подписку (для демонстрации).
+Без `TON_WALLET_ADDRESS` оплата криптовалютой показывает реквизиты TON, а проверка
+платежа подтверждает подписку без реальной транзакции. С настроенным кошельком
+поступление перевода проверяется через toncenter по комментарию и сумме.
