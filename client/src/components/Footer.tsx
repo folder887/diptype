@@ -5,10 +5,7 @@ export default function Footer() {
     <footer className="border-t border-slate-100 bg-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2 font-extrabold text-brand-700">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">d</span>
-            diptype
-          </div>
+          <div className="font-extrabold text-brand-700">diptype</div>
           <p className="mt-3 text-sm text-slate-500">
             Дипломные работы, презентации, сайты и речи к защите — в пару кликов.
           </p>

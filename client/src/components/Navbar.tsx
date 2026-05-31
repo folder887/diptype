@@ -8,8 +8,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-100 bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-        <Link to="/" className="flex items-center gap-2 font-extrabold text-brand-700">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">d</span>
+        <Link to="/" className="flex items-center font-extrabold text-brand-700">
           <span className="text-lg tracking-tight">diptype</span>
         </Link>
 
